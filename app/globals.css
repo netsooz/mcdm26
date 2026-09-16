@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-primary: #131628;
+  --color-primary-light: #1e2240;
+  --color-primary-dark: #131628;
+  --color-accent: #6F00FF;
+  --color-accent-light: #8B33FF;
+  --color-accent-hover: #5B00D4;
+  --color-surface: #F8F7FF;
+  --color-card: #ffffff;
+  --color-border: #E8E6F5;
+  --color-muted: #7B7A9D;
+  --color-danger: #dc2626;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Buttons ── */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold text-sm transition-all duration-200;
+  @apply active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+}
+.btn-primary {
+  @apply bg-accent text-white px-6 py-3 shadow-sm;
+  @apply hover:bg-accent-hover hover:shadow-md;
+}
+.btn-secondary {
+  @apply bg-white text-gray-700 border border-border px-5 py-2.5;
+  @apply hover:bg-surface hover:border-slate-300;
+}
+.btn-ghost {
+  @apply bg-transparent text-muted px-4 py-2;
+  @apply hover:bg-surface hover:text-primary;
+}
+.btn-outline-primary {
+  @apply bg-white text-accent border border-accent px-5 py-2.5;
+  @apply hover:bg-accent hover:text-white;
+}
+.btn-lg { @apply px-8 py-3.5 text-base rounded-lg; }
+.btn-icon { @apply w-10 h-10 p-0 rounded-lg; }
+
+/* ── Gate Modal Inputs ── */
+.gate-input {
+  @apply w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm transition-all;
+  @apply placeholder:text-slate-300;
+  @apply focus:outline-none focus:border-primary-dark focus:ring-2 focus:ring-primary-dark/10;
+  @apply hover:border-slate-300;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Form Inputs ── */
+.form-input {
+  @apply w-full px-4 py-2.5 border border-border rounded-lg text-sm bg-white transition-all;
+  @apply placeholder:text-gray-400;
+  @apply focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(37,99,235,0.08)];
+  @apply hover:border-slate-300;
+}
+
+/* ── Matrix table cells - 80x36 ratio for comfortable number entry ── */
+.cell-input {
+  @apply w-[80px] h-[36px] px-1.5 border border-transparent rounded-md text-center text-sm bg-transparent transition-colors;
+  @apply focus:outline-none focus:border-accent focus:bg-white focus:ring-1 focus:ring-accent/20;
+  @apply hover:bg-surface;
+}
+
+/* ── Number input spinners ── */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+/* ── Scale Picker (hover dropdown for matrix cells) ── */
+.scale-picker {
+  white-space: nowrap;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInFast {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes barGrow {
+  from { width: 0; }
+}
+.animate-fade-in { animation: fadeIn 0.35s ease forwards; }
+.animate-fade-in-fast { animation: fadeInFast 0.2s ease forwards; }
+.animate-slide-up { animation: slideUp 0.4s ease forwards; }
+.animate-slide-in { animation: slideInRight 0.3s ease forwards; }
+.animate-scale-in { animation: scaleIn 0.25s ease forwards; }
+.animate-bar-grow { animation: barGrow 0.8s ease forwards; }
+
+/* ── Print ── */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}
+
+/* ── Scrollbar ── */
+.custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+.custom-scroll::-webkit-scrollbar-track { background: transparent; }
+.custom-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+.custom-scroll::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── Custom dropdown ── */
+.dropdown-menu {
+  @apply absolute z-50 mt-1 w-full bg-white border border-border rounded-lg shadow-lg overflow-hidden;
+  animation: scaleIn 0.15s ease;
+}
+.dropdown-item {
+  @apply px-4 py-2.5 text-sm cursor-pointer transition-colors;
+  @apply hover:bg-accent/10 hover:text-accent;
+}
+.dropdown-item.active {
+  @apply bg-accent/10 text-accent font-semibold;
+}
+.dropdown-item .method-abbr {
+  @apply font-bold text-primary mr-2;
+}
+.dropdown-item .method-full {
+  @apply text-muted text-xs;
 }
